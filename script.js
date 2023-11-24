@@ -73,9 +73,13 @@ var Calculateur = /** @class */ (function () {
     };
     // **********************
     // Calcul le salaire annuel net d'impôts à partir du salaire annuel net.
+    // **********************
     Calculateur.prototype.calculSalaireAnnuelNetImpots = function () {
         this.salaireAnnuelNetImpots = this.salaireAnnuelNet * (1 - this.pourcentagePrelevementSource / 100);
     };
+    // **********************
+    // Calcul tous les salaires à partir du salaire horaire brut.
+    // **********************
     Calculateur.prototype.calculFromSalaireHoraireBrut = function () {
         console.log("Calculs en cours...");
         this.salaireHoraireBrut = parseFloat(this.elemSalHorBrut.value);
@@ -88,6 +92,9 @@ var Calculateur = /** @class */ (function () {
         this.calculSalaireAnnuelNetImpots();
         this.refreshUI();
     };
+    // **********************
+    // Rafraichit les valeurs des éléments HTML.
+    // **********************
     Calculateur.prototype.refreshUI = function () {
         this.elemSalHorBrut.value = this.salaireHoraireBrut.toFixed(2).toString();
         this.elemSalHorNet.value = this.salaireHoraireNet.toFixed(2).toString();
@@ -105,6 +112,10 @@ var Calculateur = /** @class */ (function () {
         this.elemTauxPrel.value = this.pourcentagePrelevementSource.toString();
         this.elemTauxPrelOutput.innerText = this.pourcentagePrelevementSource + "%";
     };
+    // **********************
+    // Setters.
+    // Appellés par les éléments HTML.
+    // **********************
     Calculateur.prototype.setTempsPartiel = function (pourcentage) {
         this.pourcentageTempsPartiel = pourcentage;
         this.calculFromSalaireHoraireBrut();
@@ -117,6 +128,9 @@ var Calculateur = /** @class */ (function () {
         this.pourcentagePrelevementSource = taux;
         this.calculFromSalaireHoraireBrut();
     };
+    // **********************
+    // Getter et setter pour le statut.
+    // **********************
     Calculateur.prototype.getTauxChargesSociales = function () {
         if (this.elemStatut.value == "Sal_Non_Cadre") {
             this.pourcentageChargesSociales = 22;
@@ -154,6 +168,10 @@ var Calculateur = /** @class */ (function () {
                 this.elemStatut.value = "Sal_Non_Cadre";
         }
     };
+    // **********************
+    // Reset.
+    // Appellé par le bouton "Reset".
+    // **********************
     Calculateur.prototype.reset = function () {
         this.salaireHoraireBrut = 0;
         this.salaireHoraireNet = 0;
@@ -173,6 +191,10 @@ var Calculateur = /** @class */ (function () {
         this.setTauxChargesSociales();
         this.refreshUI();
     };
+    // **********************
+    // Fonctions pour calculer certains salaires à partir d'autres salaires.
+    // Appellés par les éléments HTML lorsqu'ils sont modifiés.
+    // **********************
     Calculateur.prototype.calculFromSalaireHoraireNet = function () {
         this.salaireHoraireBrut = parseFloat(this.elemSalHorNet.value) / (1 - this.pourcentageChargesSociales / 100);
         this.setSalaireHoraireBrut();
@@ -209,6 +231,10 @@ var Calculateur = /** @class */ (function () {
         this.setSalaireAnnuelNet();
         this.calculFromSalaireAnnuelNet();
     };
+    // **********************
+    // Setters HTML
+    // Définit les valeurs des éléments HTML d'après les valeurs des propriétés de classe.
+    // **********************
     Calculateur.prototype.setSalaireHoraireBrut = function () {
         this.elemSalHorBrut.value = this.salaireHoraireBrut.toString();
     };
