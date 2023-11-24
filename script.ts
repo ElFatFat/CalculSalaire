@@ -19,7 +19,6 @@ class Calculateur {
     private salaireMensuelNetImpots: number;
     private salaireAnnuelNetImpots: number;
 
-
     //On référence les éléments HTML input pour pouvoir les utiliser plus facilement
     private elemSalHorBrut: HTMLInputElement;
     private elemSalHorNet: HTMLInputElement;
@@ -39,9 +38,6 @@ class Calculateur {
     private elemTempsTravOutput: HTMLOutputElement;
     private elemPrimeConvOutput: HTMLOutputElement;
     private elemTauxPrelOutput: HTMLOutputElement;
-
-
-
 
     constructor(){
         this.salaireHoraireBrut = 0;
@@ -94,7 +90,6 @@ class Calculateur {
     // Calcul le salaire mensuel brut à partir du salaire horaire brut.
     // **********************
     private calculSalaireMensuelBrut(): void {
-
         this.salaireMensuelBrut = this.salaireHoraireBrut * this.nombreHeuresMensuelles * (this.pourcentageTempsPartiel / 100);
     }
 
@@ -118,6 +113,7 @@ class Calculateur {
     private calculSalaireAnnuelNet(): void {
         this.salaireAnnuelNet = this.salaireAnnuelBrut * (1 - this.pourcentageChargesSociales / 100);
     }
+
     // **********************
     // Calcul le salaire mensuel net d'impôts à partir du salaire mensuel net.
     // **********************
@@ -127,10 +123,14 @@ class Calculateur {
 
     // **********************
     // Calcul le salaire annuel net d'impôts à partir du salaire annuel net.
+    // **********************
     private calculSalaireAnnuelNetImpots(): void {
         this.salaireAnnuelNetImpots = this.salaireAnnuelNet * (1 - this.pourcentagePrelevementSource / 100);
     }
 
+    // **********************
+    // Calcul tous les salaires à partir du salaire horaire brut.
+    // **********************
     public calculFromSalaireHoraireBrut(): void {
         console.log("Calculs en cours...");
         this.salaireHoraireBrut = parseFloat(this.elemSalHorBrut.value);
@@ -144,8 +144,11 @@ class Calculateur {
 
         this.refreshUI();
     }
-    public refreshUI(): void {
 
+    // **********************
+    // Rafraichit les valeurs des éléments HTML.
+    // **********************
+    public refreshUI(): void {
         this.elemSalHorBrut.value = this.salaireHoraireBrut.toFixed(2).toString();
         this.elemSalHorNet.value = this.salaireHoraireNet.toFixed(2).toString();
         this.elemSalMenBrut.value = this.salaireMensuelBrut.toFixed(2).toString();
@@ -162,6 +165,11 @@ class Calculateur {
         this.elemTauxPrel.value = this.pourcentagePrelevementSource.toString();
         this.elemTauxPrelOutput.innerText = this.pourcentagePrelevementSource + "%";
     }
+
+    // **********************
+    // Setters.
+    // Appellés par les éléments HTML.
+    // **********************
     public setTempsPartiel(pourcentage: number): void {
         this.pourcentageTempsPartiel = pourcentage;
         this.calculFromSalaireHoraireBrut();
@@ -170,12 +178,14 @@ class Calculateur {
         this.nombreMoisPrimeConventionnelle = mois;
         this.calculFromSalaireHoraireBrut();
     }
-
     public setTauxPrelevementSource(taux: number): void {
         this.pourcentagePrelevementSource = taux;
         this.calculFromSalaireHoraireBrut();
     }
 
+    // **********************
+    // Getter et setter pour le statut.
+    // **********************
     private getTauxChargesSociales(): void {
         if(this.elemStatut.value == "Sal_Non_Cadre") {
             this.pourcentageChargesSociales = 22;
@@ -208,6 +218,11 @@ class Calculateur {
                 this.elemStatut.value = "Sal_Non_Cadre";
         }
     }
+
+    // **********************
+    // Reset.
+    // Appellé par le bouton "Reset".
+    // **********************
     public reset(): void {
         this.salaireHoraireBrut = 0;
         this.salaireHoraireNet = 0;
@@ -231,6 +246,10 @@ class Calculateur {
         this.refreshUI();
     }
 
+    // **********************
+    // Fonctions pour calculer certains salaires à partir d'autres salaires.
+    // Appellés par les éléments HTML lorsqu'ils sont modifiés.
+    // **********************
     public calculFromSalaireHoraireNet(): void {
         this.salaireHoraireBrut = parseFloat(this.elemSalHorNet.value) / (1 - this.pourcentageChargesSociales / 100);
         this.setSalaireHoraireBrut();
@@ -267,6 +286,11 @@ class Calculateur {
         this.setSalaireAnnuelNet();
         this.calculFromSalaireAnnuelNet();
     }
+
+    // **********************
+    // Setters HTML
+    // Définit les valeurs des éléments HTML d'après les valeurs des propriétés de classe.
+    // **********************
     private setSalaireHoraireBrut(): void {
         this.elemSalHorBrut.value = this.salaireHoraireBrut.toString();
     }
