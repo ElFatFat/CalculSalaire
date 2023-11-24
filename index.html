@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcul Salaire</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header">
+        <h1>Calcul Du Salaire Brut En Net</h1>
+    </div>
+    <div id="calculateur">
+        <div id="first_field" class="fields">
+            <h3>INDIQUEZ VOTRE SALAIRE BRUT</h3>
+            <h3>INDIQUEZ VOTRE SALAIRE NET</h3>
+            <div>
+                <label for="elemSalHorBrut">Horaire Brut</label>
+                <input type="number" id="elemSalHorBrut" name="elemSalHorBrut" placeholder="0" value="0" min="0" oninput="calculateur.calculFromSalaireHoraireBrut()">
+            </div>
+            <div>
+                <label for="elemSalHorNet">Horaire Net</label>
+                <input type="number" id="elemSalHorNet" name="elemSalHorNet" placeholder="0" min="0" oninput="calculateur.calculFromSalaireHoraireNet()">
+            </div>
+            <div>
+                <label for="elemSalMenBrut">Mensuel Brut</label>
+                <input type="number" id="elemSalMenBrut" name="elemSalMenBrut" placeholder="0" step="10" min="0" oninput="calculateur.calculFromSalaireMensuelBrut()">
+            </div>
+            <div>
+                <label for="elemSalMenNet">Mensuel Net</label>
+                <input type="number" id="elemSalMenNet" name="elemSalMenNet" placeholder="0" step="10" min="0" oninput="calculateur.calculFromSalaireMensuelNet()">
+            </div>
+            <div>
+                <label for="elemSalAnnBrut">Annuel Brut</label>
+                <input type="number" id="elemSalAnnBrut" name="elemSalAnnBrut" placeholder="0" step="100" min="0" oninput="calculateur.calculFromSalaireAnnuelBrut()">
+            </div>
+            <div>
+                <label for="elemSalAnnNet">Annuel Net</label>
+                <input type="number" id="elemSalAnnNet" name="elemSalAnnNet" placeholder="0" step="100" min="0" oninput="calculateur.calculFromSalaireAnnuelNet()">
+            </div>
+            <div class="double">
+                <div id="statutLabel_container">
+                    <label for="elemStatut">SÉLECTIONNEZ VOTRE STATUT</label>
+                    <span id="elemTauxStatOutput" class="feedback">-22%</span>
+                </div>
+                <select name="elemStatut" id="elemStatut" onchange="calculateur.getTauxChargesSociales()">
+                    <option value="Sal_Non_Cadre">Salarié Non-Cadre</option>
+                    <option value="Sal_Cadre">Salarié Cadre</option>
+                    <option value="Fon_Pub">Fonction Publique</option>
+                    <option value="Prof_Lib">Profession Libérale</option>
+                    <option value="Port_Sal">Portage Salarial</option>
+                </select>
+            </div>
+        </div>
+        <div id="second_field" class="fields">
+            <div class="double">
+                <div>
+                    <h3>TEMPS DE TRAVAIL :</h3> 
+                    <span id="elemTempsTravOutput" class="feedback">100%</span>
+                </div>
+                <input type="range" id="elemTempsTrav" name="elemTempsTrav" value="100" min="10" max="100" step="10" oninput="calculateur.setTempsPartiel(this.value)">
+            </div>
+            <div class="double">
+                <div>
+                    <h3>NOMBRE DE MOIS DE PRIME CONVENTIONNELLE :</h3> 
+                    <span id="elemPrimeConvOutput" class="feedback">12 mois</span>
+                </div>
+                <input type="range" id="elemPrimeConv" name="elemPrimeConv" value="12" min="12" max="16" step="1" oninput="calculateur.setMoisPrimeConventionnelle(this.value)">
+            </div>
+            <div class="double">
+                <div>
+                    <h3>TAUX DE PRÉLÉVEMENT À LA SOURCE :</h3> 
+                    <span id="elemTauxPrelOutput" class="feedback">0%</span>
+                </div>
+                <input type="range" id="elemTauxPrel" name="elemTauxPrel" value="0" min="0" max="43" step="0.5" oninput="calculateur.setTauxPrelevementSource(this.value)">
+            </div>
+            <div>
+                <label for="elemMenNetImpots">Mensuel Net après impôts</label>
+                <input type="number" id="elemMenNetImpots" name="elemMenNetImpots" placeholder="0" step="100" min="0" oninput="calculateur.calculFromSalaireMensuelNetImpots()">
+            </div>
+            <div>
+                <label for="elemAnnNetImpots">Annuel Net après impôts</label>
+                <input type="number" id="elemAnnNetImpots" name="elemAnnNetImpots" placeholder="0" step="100"min="0" oninput="calculateur.calculFromSalaireAnnuelNetImpots()">
+            </div>
+            <button id="btnReset" onclick="calculateur.reset()">Reset</button>
+        </div>
+    </div>
+</body>
+</html>
